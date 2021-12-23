@@ -197,7 +197,7 @@ class AdminController {
 
     // [PUT] admin/products/:id
     saveUpdate(req, res, next) {
-        console.log(req.file.path);
+        // console.log(req.file.path);
         var data = req.body;
         data.image = req.file.path.replace('src\\public\\', '\\')
         Product.updateOne({ _id: req.params.id }, data)

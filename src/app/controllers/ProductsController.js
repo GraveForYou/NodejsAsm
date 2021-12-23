@@ -9,13 +9,13 @@ class ProductsController {
         Product.find({})
             .then(products => {
 
-                var cate = products.map(product => {
+                var category = products.map(product => {
                     var [a, ...rest] = product.category
                     return a.toLowerCase()
                 })
                 res.render('client/products/products', {
                     products: multipleMongooseToObject(products),
-                    category: cate
+                    category: category
                 });
             })
             .catch(next);
