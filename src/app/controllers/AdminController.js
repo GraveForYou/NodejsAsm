@@ -24,24 +24,13 @@ class AdminController {
     //[POST] admin/create
     saveCreate(req, res, next) {
         var formdata = req.body;
-        var cat = formdata.category
-        if (cat.includes('bag')) {
-            formdata.size = req.body.sizesizebag;
-        }
-        if (cat.includes('shoes')) {
-            formdata.size = req.body.sizeshoes;
-        }
-        if (cat.includes('watches')) {
-            formdata.size = req.body.sizewatches;
-        }
-        if (cat.includes('Male') || cat.includes('Female')) {
-            formdata.size = req.body.sizeclothes;
-        }
+
         const file = req.file;
         formdata.image = req.file.path.replace('src\\public\\', '\\')
-        const product = new Product(formdata);
-        product.save();
-        res.redirect('/admin')
+        res.json(formdata)
+            // const product = new Product(formdata);
+            // product.save();
+            // res.redirect('/admin')
 
     }
 

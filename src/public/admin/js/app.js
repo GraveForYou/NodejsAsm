@@ -28,75 +28,69 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('change', "#imageUpload", function() {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').css('background-image', `url(${e.target.result})`);
+                $('#imagePreview').hide();
+                $('#imagePreview').fadeIn(650);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    })
+
+    //select2---------------------------------------------------------------
+    $('.select2-multiple-gender').attr('data-placeholder', 'gender')
+    $('.select2-multiple-gender').select2({
+        allowClear: true,
+        minimumResultsForSearch: Infinity,
+        width: '200px',
+        placeholder: {
+            id: '-1', // the value of the option
+            text: 'Select an option'
+        }
+
+    });
+    $('.select2-multiple-category').select2({
+        placeholder: "category",
+        allowClear: true,
+        minimumResultsForSearch: Infinity
+    });
+    $('.select2-multiple-size').select2({
+        placeholder: "size",
+        allowClear: true,
+        minimumResultsForSearch: Infinity
+    });
+    $('.select2-multiple-color').select2({
+        placeholder: "color",
+        allowClear: true,
+        minimumResultsForSearch: Infinity
+    });
+
+
+
+
+    //create-submit---------------------------------------------------------
+    $('#create-submit')
+        //==================
+
+
+
+
+
+    $('.select2-multiple-category').on('select2:select', function(e) {
+        const panes = jQuery(".tab-pane");
+        var element = e.params.data.element;
+
+        var indexValue = element.dataset.value;
+
+        const pane = panes[indexValue];
+
+        $(".tab-item.active").removeClass("active");
+        $(".tab-pane.active").removeClass("active");
+
+        element.classList.add("active");
+        pane.classList.add("active");
+    });
 });
-
-// const m = document.querySelector.bind(document)
-// const mm = document.querySelectorAll.bind(document)
-
-// const selectElement = m('.chosenselect')
-// const selectOptions = mm('.chosenselect option')
-// const select = m('#select')
-// m('#select').onclick = () => {
-
-
-
-//     if (selectElement.classList.contains('d-block')) {
-//         selectElement.classList.remove('d-block');
-//     } else {
-//         selectElement.classList.add('d-block');
-//     }
-// }
-
-// const handlegetValueSelect = function() {
-
-//         var new_arr = [];
-//         var values = [];
-//         selectOptions.forEach(option => {
-//             option.onclick = () => {
-
-
-
-//                 if (option.getAttribute('selected') == 'true') {
-//                     option.removeAttribute('selected');
-//                     const valueToRemove = option.value;
-//                     new_arr = values.filter(item => item !== valueToRemove);
-//                     values = new_arr;
-//                     option.style.color = 'black'
-//                 } else {
-//                     var valueoption = option.value
-//                     option.setAttribute('selected', true);
-//                     values.push(valueoption);
-//                     option.style.color = '#ccc'
-//                 }
-//                 var selected = mm('option[selected="true"]')
-//                 select.innerHTML += ""
-//                 if (selected.length < 1) {
-//                     select.innerHTML = 'select'
-//                 }
-//                 selected.forEach((function(sel) {
-//                     if (sel) {
-//                         select.innerHTML = values.join(', ')
-//                     } else {
-//                         select.innerHTML = values.join(', ')
-//                     }
-//                 }))
-//                 console.log(values)
-//             };
-//         });
-//         // $(document).on('click', '#submitCreateForm', function() {
-//         //     console.log('values', values)
-//         //     $.ajax({
-//         //         url: '/admin/create',
-//         //         method: 'POST',
-//         //         dataType: 'json',
-//         //         data: { data: values },
-//         //         success: function(data) {
-//         //             alert('Success', data)
-//         //         },
-//         //         error: function(response) {
-//         //             alert('server error')
-//         //         }
-//         //     });
-//         // });
-//     }
-//     // handlegetValueSelect()
