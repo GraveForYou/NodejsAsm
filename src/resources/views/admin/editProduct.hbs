@@ -1,235 +1,243 @@
 <div class="body-content">
 
-    <div class="container d-flex mt-5">
+    <div class="container mt-5">
+        <form method="POST" action="/admin/{{product._id}}?_method=PUT" enctype="multipart/form-data">
+            <div class="row">
+                {{!-- Upload img --}}
+                <div class="col-3">
+                    {{!-- Image Upload --}}
+                    <div class="form-group">
+                        <div class="avatar-upload">
+                            <div class="title text-center">Image</div>
+                            <div class="avatar-edit">
+                                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="imageupdate"
+                                    value="{{product.image}}" />
+                                <label for="imageUpload"><i class="fas fa-pencil-alt"></i></label>
+                            </div>
+                            <div class="avatar-preview">
+                                <img id="imagePreview" src="{{product.image}}">
+                                </img>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- info product --}}
+                <div class="col-9">
+                    <a href="/admin">Về danh sách sản phẩm</a>
+                    <div class="form-content">
+                        <div class="sections">
+                            <div class="section-title">
+                                <h4 class="text">Thông tin cơ bản</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{!-- Name --}}
+                                        <div class="form-group position-relative">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control input" id="name" placeholder="name"
+                                                name="name" value="{{product.name}}" />
+                                        </div>
+                                        <div class="form-group position-relative">
+                                            <label for="price">Price</label>
+                                            <input type="text" class="form-control" id="price" placeholder="price"
+                                                name="price" value="{{product.price}}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        {{!-- Category --}}
+                                        <div class="form-group position-relative">
+                                            <label for="category">Category</label>
+                                            <select class="form-control select2-multiple-category" name="category"
+                                                id="category">
+                                                {{#if product.category}}
+                                                <option data-value="{{product.category}}" class="tab-item active"
+                                                    value='{{product.category}}'>
+                                                    {{product.category}}</option>
+                                                {{/if}}
+                                                {{#each categoryNotSelected}}
+                                                <option data-value="{{this}}" class="tab-item" value='{{this}}'>
+                                                    {{this}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        {{!-- Gender --}}
+                                        <div class="form-group position-relative">
+                                            <label for="gender" class="labelGender">Gender</label>
+                                            <select class="form-control select2-multiple-gender" style="width: 100%;"
+                                                name="gender" id="gender" multiple="multiple" placeholder="gender">
+                                                {{#each genders }}
+                                                <option value='{{this}}' selected="selected">{{this}}</option>
+                                                {{/each}}
+                                                {{#each genderNotSelected }}
+                                                <option value='{{this}}'>{{this}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sections">
+                            <div class="section-title">
+                                <h4 class="text">Thông tin chi tiết</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="">
+                                            {{!-- Tab Content --}}
+                                            {{#if sizeClothes}}
+                                            <div class="tab-pane" data-content="clothes">
+                                                <div class="form-group position-relative">
+                                                    <label for="select2Size" class="sizeLabel">Size
+                                                        Clothes</label>
+                                                    <select class="form-control select2-multiple-size " id="select2Size"
+                                                        multiple="multiple" name="sizeClothes">
+                                                        {{#each sizeClothes }}
+                                                        <option value='{{this}}' selected="selected">{{this}}</option>
+                                                        {{/each}}
+                                                        {{#each sizeShoesNotSelected }}
+                                                        <option value='{{this}}'>{{this}}</option>
+                                                        {{/each}}
 
-        {{!Header form}}
-        <div class="col-3 pt-100">
-            <!-- Tab items -->
-            <h3 class="text-center mb-4">Category</h3>
-            <div class="tabs flex-column">
-                <div class="tab-item active" value="clothes">
-                    Clothes
-                </div>
-                <div class="tab-item" value="shoes">
-                    Shoes
-                </div>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{else}}
+                                            <div class="tab-pane" data-content="clothes">
+                                                <div class="form-group position-relative">
+                                                    <label for="select2Size" class="sizeLabel">Size
+                                                        Clothes</label>
+                                                    <select class="form-control select2-multiple-size " id="select2Size"
+                                                        multiple="multiple" name="sizeClothes">
+                                                        <option value='X'>X</option>
+                                                        <option value='XL'>XL</option>
+                                                        <option value='M'>M</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                            {{!-- --}}
+                                            {{#if sizeShoes}}
+                                            <div class="tab-pane" data-content="shoes">
+                                                <div class="form-group position-relative">
+                                                    <label for="size">Size Shoes</label>
+                                                    <select class="form-control select2-multiple-size" name="sizeShoes"
+                                                        multiple="multiple">
+                                                        {{#each sizeShoes }}
+                                                        <option value='{{this}}' selected="selected">{{this}}</option>
+                                                        {{/each}}
+                                                        {{#each sizeShoesNotSelected }}
+                                                        <option value='{{this}}'>{{this}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{else}}
+                                            <div class="tab-pane" data-content="shoes">
+                                                <div class="form-group position-relative">
+                                                    <label for="size">Size Shoes</label>
+                                                    <select class="form-control select2-multiple-size" name="sizeShoes"
+                                                        multiple="multiple">
+                                                        <option value='40'>40</option>
+                                                        <option value='41'>41</option>
+                                                        <option value='42'>42</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                            {{!-- --}}
+                                            {{#if sizeBag}}
+                                            <div class="tab-pane" data-content="bag">
+                                                <div class="form-group position-relative">
+                                                    <label for="size">Size Bag</label>
+                                                    <select class="form-control select2-multiple-size" name="sizeBag"
+                                                        multiple="multiple">
+                                                        {{#each sizeBag }}
+                                                        <option value='{{this}}' selected="selected">{{this}}</option>
+                                                        {{/each}}
+                                                        {{#each sizeBagNotSelected }}
+                                                        <option value='{{this}}'>{{this}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{else}}
+                                            <div class="tab-pane" data-content="bag">
+                                                <div class="form-group position-relative">
+                                                    <label for="size">Size Bag</label>
+                                                    <select class="form-control select2-multiple-size" name="sizeBag"
+                                                        multiple="multiple">
 
-                <div class="tab-item" value="bag">
-                    Bag
+                                                        <option value='X'>X</option>
+                                                        <option value='XL'>XL</option>
+                                                        <option value='M'>M</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                            {{!-- --}}
+                                            {{#if sizeWatches}}
+                                            <div class="tab-pane" data-content="watches">
+                                                <div class="form-group position-relative">
+                                                    <label for="size">Size Watches</label>
+                                                    <select class="form-control select2-multiple-size" name="sizeWatches"
+                                                        multiple="multiple">
+                                                        {{#each sizeWatches }}
+                                                        <option value='{{this}}' selected="selected">{{this}}</option>
+                                                        {{/each}}
+                                                        {{#each sizeWatchesNotSelected }}
+                                                        <option value='{{this}}'>{{this}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{else}}
+                                            <div class="tab-pane" data-content="watches">
+                                                <div class="form-group position-relative">
+                                                    <label for="size">Size Watches</label>
+                                                    <select class="form-control select2-multiple-size" name="sizeWatches"
+                                                        multiple="multiple">
+                                                        <option value='X'>X</option>
+                                                        <option value='XL'>XL</option>
+                                                        <option value='Regular'>Regular</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                        </div>
+                                        {{!-- End Tab Content --}}
+                                    </div>
+                                    {{!-- Color --}}
+                                    <div class="col-6">
+                                        <div class="form-group position-relative">
+                                            <label for="color">Color</label>
+                                            <select class="form-control select2-multiple-color" name="color"
+                                                multiple="multiple">
+                                                {{#each colors }}
+                                                <option value='{{this}}' selected="selected">{{this}}</option>
+                                                {{/each}}
+                                                {{#each colorNotSelected }}
+                                                <option value='{{this}}'>{{this}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <label for="description">Description</label>
+                                    <textarea type="text" class="form-control" id="description"
+                                        placeholder="description" name="description">{{product.description}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="create-submit" class="btn btn-primary">Submit</button>
+                    </div>
                 </div>
-                <div class="tab-item" value="watches">
-                    Watches
-                </div>
-                <div class="line"></div>
             </div>
-
-        </div>
-        {{!Header }}
-        <div class="col-9">
-
-            <div class="mb-4">
-                <h3>Chỉnh sửa sản phẩm</h3>
-            </div>
-            <form method="POST" action="/admin/{{product._id}}?_method=PUT" enctype="multipart/form-data">
-                {{!category}}
-                <div class="form-group d-none">
-                    <label for="category">Category</label>
-                    <input type="text" class="form-control" id="category" placeholder="category" name="category" value="{{product.category}}" />
-                    <input type="checkbox" class="genderCategory" name="category" value="Male">
-                    <input type="checkbox" class="genderCategory" name="category" value="Female">
-                </div>
-                {{!Name}}
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="name" name="name"
-                        value="{{product.name}}" />
-                </div>
-                <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="text" class="form-control" id="price" placeholder="price" name="price"
-                        value="{{product.price}}" />
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea type="text" class="form-control" id="description" placeholder="description"
-                        name="description">{{product.description}}</textarea>
-                </div>
-
-                <div class="form-group">
-                    <div for="">Gender</div>
-                    {{#each genders}}
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="gender" value="{{this}}"
-                            checked="checked" />
-                        <label class="form-check-label">{{this}}</label>
-                    </div>
-                    {{/each}}
-                    {{#each nonGenders}}
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="color" value="{{this}}" />
-                        <label class="form-check-label">{{this}}</label>
-                    </div>
-                    {{/each}}
-                </div>
-                <div class="tab-content">
-                    <div class="tab-pane active">
-                        <div class="form-group">
-                            <div for="">Size clothes</div>
-                            {{#each sizeClothes}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizeclothes" value="{{this}}"
-                                    checked="checked" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-                            {{#each nonSizeClothes}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizeclothes" value="{{this}}" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-
-                        </div>
-                    </div>
-
-                    <div class="tab-pane">
-                        <div class="form-group">
-                            <div for="">Size shoes</div>
-                            {{#each sizeShoes}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizeshoes" value="{{this}}"
-                                    checked="checked" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-                            {{#each nonSizeShoes}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizeshoes" value="{{this}}" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-
-                        </div>
-                    </div>
-                    <div class="tab-pane">
-                        <div class="form-group">
-                            <div for="">Size bag</div>
-                            {{#each sizeBag}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizebag" value="{{this}}"
-                                    checked="checked" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-                            {{#each nonSizeBag}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizebag" value="{{this}}" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-
-                        </div>
-                    </div>
-                    <div class="tab-pane">
-                        <div class="form-group">
-                            <div for="">Size watches</div>
-                            {{#each sizeWatches}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizewatches" value="{{this}}"
-                                    checked="checked" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-                            {{#each nonSizeWatches}}
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="sizewatches" value="{{this}}" />
-                                <label class="form-check-label">{{this}}</label>
-                            </div>
-                            {{/each}}
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div for="" class=>Color</div>
-                    <div>{{product.color}}</div>
-                    {{#each colors}}
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="color" value="{{this}}"
-                            checked="checked" />
-                        <label class="form-check-label">{{this}}</label>
-                    </div>
-                    {{/each}}
-                    {{#each noncolors}}
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="color" value="{{this}}" />
-                        <label class="form-check-label">{{this}}</label>
-                    </div>
-                    {{/each}}
-
-                </div>
-
-                <div class="form-group">
-                    <label for="">file Image</label>
-                    <input type="file" class="form-control-file" id="image" name="imageu" value="{{product.image}}" />
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-
+        </form>
     </div>
+</div>
 
-    <script type="text/javascript">
-        const $ = document.querySelector.bind(document);
-        const $$ = document.querySelectorAll.bind(document);
-        const tabs = $$(".tab-item");
-        const panes = $$(".tab-pane");
-        const tabActive = $(".tab-item.active");
-        const categoryInput = $("#category")
-        var v = ['Male', 'Female']
-        const genderCategory = $$('.genderCategory');
-        genderCategory.forEach(function (gender) {
-
-        })
-        categoryInput.setAttribute('value', v)
-        tabs.forEach((tab, index) => {
-            genderCategory.forEach(function (gender) {
-                gender.setAttribute('checked', 'checked')
-            })
-            const pane = panes[index];
-            tab.onclick = function () {
-                categoryInput.setAttribute('value', '')
-                const tabCategory = tab.getAttribute('value')
-                const gender = tab.getAttribute('value')
-                categoryInput.setAttribute('value', tabCategory)
-                console.log(tabCategory)
-                $(".tab-item.active").classList.remove("active");
-                $(".tab-pane.active").classList.remove("active");
-                //$(".tab-pane.active~[type='checkbox']").checked = false;
-                console.log(categoryInput)
-
-                this.classList.add("active"); pane.classList.add("active");
-                if (tab.getAttribute('value') === 'clothes') {
-
-                    genderCategory.forEach(function (gender) {
-                        gender.setAttribute('checked', true)
-                        gender.removeAttribute('disable')
-                        console.log(gender)
-                    })
-                    console.log(categoryInput)
-                } else {
-                    genderCategory.forEach(function (gender) {
-                        gender.removeAttribute('checked')
-                        gender.setAttribute('disable', 'disable')
-                        console.log(gender)
-                    })
-                }
-            };
-            categoryInput.setAttribute('value', '')
-        });
-    </script>
 </div>
 
 <div class="pb-150">

@@ -1,5 +1,6 @@
 const Product = require('../models/Product')
 const faker = require('faker')
+var path = require('path');
 const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongoose')
 
 class AdminController {
@@ -24,14 +25,12 @@ class AdminController {
     //[POST] admin/create
     saveCreate(req, res, next) {
         var formdata = req.body;
-
         const file = req.file;
-        formdata.image = req.file.path.replace('src\\public\\', '\\')
-        res.json(formdata)
-            // const product = new Product(formdata);
-            // product.save();
-            // res.redirect('/admin')
 
+        formdata.image = req.file.path.replace('src\\public\\', '\\')
+        const product = new Product(formdata);
+        product.save();
+        res.redirect('/admin')
     }
 
     //[GET] admin/:id/edit
@@ -41,142 +40,50 @@ class AdminController {
                 var colors = product.color
                 var sizes = product.size
                 var genders = product.gender
-                var nonColors = []
-                if (!product.color.includes('black')) {
-                    nonColors.push('black')
-                }
-                if (!product.color.includes('blue')) {
-                    nonColors.push('blue')
-                }
-                if (!product.color.includes('red')) {
-                    nonColors.push('red')
-                }
-                if (!product.color.includes('green')) {
-                    nonColors.push('green')
-                }
-                if (!product.color.includes('white')) {
-                    nonColors.push('white')
-                }
-                if (!product.color.includes('grey')) {
-                    nonColors.push('grey')
-                }
-                var nonGenders = [];
-                if (!product.gender.includes('Male')) {
-                    nonGenders.push('Male')
-                }
-                if (!product.gender.includes('Female')) {
-                    nonGenders.push('Female')
-                }
+                var arrcolors = ['black', 'white', 'blue', 'red', 'green', 'grey']
+                var colorNotSelected = arrcolors.filter(value => colors.every(v => !v.includes(value)))
+                var arrgenders = ['male', 'female']
+                var genderNotSelected = arrgenders.filter(value => genders.every(v => !v.includes(value)))
                 var cat = product.category
-                console.log('cat:', cat)
-                var nonSizeClothes = ['M', 'L', 'XL', 'XXL', 'S', 'X']
-                var nonSizeShoes = [38, 39, 40, 41, 42, 43]
-                var nonSizeBag = ['M', 'L', 'XL', 'XXL', 'S', 'X']
-                var nonSizeWatches = ['X', 'XL', 'Regular']
+                var arrSizeClothes = ['M', 'L', 'XL', 'XXL', 'S', 'X']
+                var arrSizeShoes = [38, 39, 40, 41, 42, 43]
+                var arrSizeBag = ['M', 'L', 'XL', 'XXL', 'S', 'X']
+                var arrSizeWatches = ['X', 'XL', 'Regular']
+                var category = ['clothes', 'bag', 'watches', 'shoes']
+                var categoryNotSelected = category.filter(value => cat.every(v => !v.includes(value)))
+                console.log("categoryNotSelected:", categoryNotSelected)
                 if (cat.includes('bag')) {
-                    var sizeBag = []
-                    nonSizeBag = []
-                    sizeBag = sizes;
-                    console.log(product.size)
-                    if (!product.size.includes('X')) {
-                        nonSizeBag.push('X')
-                    }
-                    if (!product.size.includes('XL')) {
-                        nonSizeBag.push('XL')
-                    }
-                    if (!product.size.includes('M')) {
-                        nonSizeBag.push('M')
-                    }
-                    if (!product.size.includes('L')) {
-                        nonSizeBag.push('L')
-                    }
-                    if (!product.size.includes('XXL')) {
-                        nonSizeBag.push('XXL')
-                    }
-                    if (!product.size.includes('S')) {
-                        nonSizeBag.push('S')
-                    }
+                    var sizeBagNotSelected = arrSizeBag.filter(value => sizes.every(v => !v.includes(value)))
+                    var sizeBag = sizes
                 }
                 if (cat.includes('shoes')) {
-                    var sizeShoes = []
-                    nonSizeShoes = []
-                    sizeShoes = sizes;
-                    console.log(product.size)
-
-                    if (!product.size.includes(38)) {
-                        nonSizeShoes.push(38)
-                    }
-                    if (!product.size.includes(39)) {
-                        nonSizeShoes.push(39)
-                    }
-                    if (!product.size.includes(40)) {
-                        nonSizeShoes.push(40)
-                    }
-                    if (!product.size.includes(41)) {
-                        nonSizeShoes.push(41)
-                    }
-                    if (!product.size.includes(42)) {
-                        nonSizeShoes.push(42)
-                    }
-                    if (!product.size.includes(43)) {
-                        nonSizeShoes.push(43)
-                    }
+                    var sizeShoesNotSelected = arrSizeShoes.filter(value => sizes.every(v => !v.includes(value)))
+                    var sizeShoes = sizes
                 }
                 if (cat.includes('watches')) {
-                    var sizeWatches = []
-                    nonSizeWatches = []
-                    sizeWatches = sizes;
-                    console.log(product.size)
-                    if (!product.size.includes('X')) {
-                        nonSizeWatches.push('X')
-                    }
-                    if (!product.size.includes('XL')) {
-                        nonSizeWatches.push('XL')
-                    }
-                    if (!product.size.includes('Regular')) {
-                        nonSizeWatches.push('Regular')
-                    }
+                    var sizeWatchesNotSelected = arrSizeWatches.filter(value => sizes.every(v => !v.includes(value)))
+                    var sizeWatches = sizes
                 }
-                if (cat.includes('Male') || cat.includes('Female') || cat.includes('men') || cat.includes('women')) {
-                    var sizeClothes = []
-                    nonSizeClothes = []
-                    sizeClothes = sizes;
-                    console.log(product.size)
-                    if (!product.size.includes('X')) {
-                        nonSizeClothes.push('X')
-                    }
-                    if (!product.size.includes('XL')) {
-                        nonSizeClothes.push('XL')
-                    }
-                    if (!product.size.includes('M')) {
-                        nonSizeClothes.push('M')
-                    }
-                    if (!product.size.includes('L')) {
-                        nonSizeClothes.push('L')
-                    }
-                    if (!product.size.includes('XXL')) {
-                        nonSizeClothes.push('XXL')
-                    }
-                    if (!product.size.includes('S')) {
-                        nonSizeClothes.push('S')
-                    }
-
+                if (cat.includes('Male') || cat.includes('Female') || cat.includes('men') || cat.includes('women') || cat.includes('clothes')) {
+                    var sizeClothesNotSelected = arrSizeClothes.filter(value => sizes.every(v => !v.includes(value)))
+                    var sizeClothes = sizes
                 }
                 res.render('admin/editProduct', {
                     product: mongooseToObject(product),
+                    categoryNotSelected: categoryNotSelected,
                     genders: genders,
-                    nonGenders: nonGenders,
-                    noncolors: nonColors,
                     colors: colors,
+                    genderNotSelected: genderNotSelected,
+                    colorNotSelected: colorNotSelected,
                     sizes: sizes,
-                    nonSizeClothes: nonSizeClothes,
-                    nonSizeBag: nonSizeBag,
-                    nonSizeShoes: nonSizeShoes,
-                    nonSizeWatches: nonSizeWatches,
-                    sizeClothes: sizeClothes,
-                    sizeBag: sizeBag,
                     sizeShoes: sizeShoes,
+                    sizeBag: sizeBag,
                     sizeWatches: sizeWatches,
+                    sizeClothes: sizeClothes,
+                    sizeShoesNotSelected: sizeShoesNotSelected,
+                    sizeBagNotSelected: sizeBagNotSelected,
+                    sizeWatchesNotSelected: sizeWatchesNotSelected,
+                    sizeClothesNotSelected: sizeClothesNotSelected,
                     layout: 'admin'
                 })
             })
@@ -186,9 +93,23 @@ class AdminController {
 
     // [PUT] admin/products/:id
     saveUpdate(req, res, next) {
-        // console.log(req.file.path);
         var data = req.body;
-        data.image = req.file.path.replace('src\\public\\', '\\')
+        const file = req.file;
+        if (file) {
+            data.image = file.path.replace('src\\public\\', '\\')
+        }
+        if (data.category === 'clothes') {
+            data.size = req.body.sizeClothes
+        }
+        if (data.category === 'bag') {
+            data.size = req.body.sizeBag
+        }
+        if (data.category === 'watches') {
+            data.size = req.body.sizeWatches
+        }
+        if (data.category === 'shoes') {
+            data.size = req.body.sizeShoes
+        }
         Product.updateOne({ _id: req.params.id }, data)
             .then(() => res.redirect('/admin'))
             .catch(next);

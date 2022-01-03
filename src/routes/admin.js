@@ -18,6 +18,6 @@ router.get('/', adminController.index);
 router.get('/create', adminController.createProduct);
 router.post('/create', upload.single('image'), adminController.saveCreate);
 router.get('/:id/edit', adminController.editProduct);
-router.put('/:id', upload.single('imageu'), adminController.saveUpdate);
+router.put('/:id', upload.single('imageupdate'), adminController.saveUpdate);
 
 module.exports = router;

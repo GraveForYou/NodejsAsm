@@ -31,31 +31,26 @@ $(document).ready(function() {
     $(document).on('change', "#imageUpload", function() {
         if (this.files && this.files[0]) {
             var reader = new FileReader();
+
             reader.onload = function(e) {
+                console.log(e.target.result)
                 $('#imagePreview').css('background-image', `url(${e.target.result})`);
+                $('#imagePreview').attr('src', e.target.result)
                 $('#imagePreview').hide();
                 $('#imagePreview').fadeIn(650);
             }
             reader.readAsDataURL(this.files[0]);
         }
-    })
-
+    });
     //select2---------------------------------------------------------------
-    $('.select2-multiple-gender').attr('data-placeholder', 'gender')
     $('.select2-multiple-gender').select2({
         allowClear: true,
-        minimumResultsForSearch: Infinity,
-        width: '200px',
-        placeholder: {
-            id: '-1', // the value of the option
-            text: 'Select an option'
-        }
-
+        tags: true,
     });
     $('.select2-multiple-category').select2({
         placeholder: "category",
         allowClear: true,
-        minimumResultsForSearch: Infinity
+        minimumResultsForSearch: Infinity,
     });
     $('.select2-multiple-size').select2({
         placeholder: "size",
@@ -67,30 +62,20 @@ $(document).ready(function() {
         allowClear: true,
         minimumResultsForSearch: Infinity
     });
-
-
-
-
-    //create-submit---------------------------------------------------------
-    $('#create-submit')
-        //==================
-
-
-
-
-
+    //==================
+    const tabActive = $(".tab-item.active");
+    let pane = $(`[data-content=${tabActive.val()}]`);
+    pane.addClass("active")
     $('.select2-multiple-category').on('select2:select', function(e) {
-        const panes = jQuery(".tab-pane");
         var element = e.params.data.element;
 
-        var indexValue = element.dataset.value;
-
-        const pane = panes[indexValue];
+        pane = $(`[data-content=${element.value}]`);
 
         $(".tab-item.active").removeClass("active");
         $(".tab-pane.active").removeClass("active");
 
         element.classList.add("active");
-        pane.classList.add("active");
+        pane.addClass("active");
     });
+
 });
