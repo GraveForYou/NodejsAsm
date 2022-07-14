@@ -1,5 +1,3 @@
 src/public/css/
-bin/
+# bin/
 node_modules/
-
-bin/
