@@ -5,6 +5,7 @@ const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongo
 
 class AdminController {
 
+    //[GET] /admin/
     index(req, res, next) {
         Product.find({})
             .sort({ 'createdAt': "descending" })

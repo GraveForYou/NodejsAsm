@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var multer = require('multer');
 var morgan = require('morgan');
 const methodOverride = require('method-override')
 var handlebars = require('express-handlebars');

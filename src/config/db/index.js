@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
-
+require('dotenv').config();
 // Build the connection string
-var dbURI = 'mongodb://127.0.0.1:27017/nodejs_asm';
+var dbURI = process.env.DB_URL;
 // Create the database connection
 mongoose.connect(dbURI, { useNewUrlParser: true });
 // CONNECTION EVENTS
